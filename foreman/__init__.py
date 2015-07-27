@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # Licensed under the Apache License, Version 2.0 (the "License"); you may
 # not use this file except in compliance with the License. You may obtain
@@ -15,4 +16,49 @@
 # @author: David Blaisonneau <david.blaisonneau@orange.com>
 # @author: Arnaud Morin <arnaud1.morin@orange.com>
 
-# This directory is a Python package.
+from foreman.api import Api
+from foreman.objects import ForemanObjects
+from foreman.smartProxies import SmartProxies
+from foreman.operatingsystems import OperatingSystems
+from foreman.hostgroups import HostGroups
+from foreman.hosts import Hosts
+from foreman.architectures import Architectures
+from foreman.subnets import Subnets
+from foreman.puppetClasses import PuppetClasses
+from foreman.computeResources import ComputeResources
+from foreman.smartClassParameters import SmartClassParameters
+from foreman.environments import Environments
+from foreman.configTemplates import ConfigTemplates
+
+
+class Foreman:
+    """
+    HostGroup class
+    """
+    def __init__(self, password, login='admin', ip='127.0.0.1'):
+        """ Function __init__
+        Init the API with the connection params
+        @param password: authentication password
+        @param password: authentication login - default is admin
+        @param ip: api ip - default is localhost
+        @return RETURN: self
+        """
+        self.api = Api(login=login, password=password, ip=ip,
+                       printErrors=False)
+        self.domains = ForemanObjects(self.api,
+                                    'domains',
+                                    'domain')
+        self.smartProxies = SmartProxies(self.api)
+        self.puppetClasses = PuppetClasses(self.api)
+        self.operatingSystems = OperatingSystems(self.api)
+        self.architectures = Architectures(self.api)
+        self.subnets = Subnets(self.api)
+        self.hostgroups = HostGroups(self.api)
+        self.hosts = Hosts(self.api)
+        self.computeResources = ComputeResources(self.api)
+        self.environments =  Environments(self.api)
+        self.configTemplates =  ConfigTemplates(self.api)
+        self.smartClassParameters = SmartClassParameters(self.api)
+        self.settings =  ForemanObjects(self.api, 'settings', 'setting')
+        self.ptables =  ForemanObjects(self.api, 'ptables', 'ptable')
+        self.media =  ForemanObjects(self.api, 'media', 'medium')
