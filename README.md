@@ -1,10 +1,11 @@
 Foreman
 ===========
 
-Python library to manipulate The Foreman through the API
-Authors : David Blaisonneau david.blaisonneau@orange.com
-          Arnaud Morin arnaud1.morin@orange.com
-License: Apache 2.0
+* Python library to manipulate The Foreman through the API
+* Authors :
+          * David Blaisonneau david.blaisonneau@orange.com
+          * Arnaud Morin arnaud1.morin@orange.com
+* License: Apache 2.0
 
 
 Usage
