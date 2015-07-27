@@ -10,19 +10,23 @@ License: Apache 2.0
 Usage
 -----------
 
-Load the code::
+Load the code:
+```
     from foreman import Foreman
     foreman = Foreman(  login=args["admin"],
                         password=args["password"],
                         ip=args["ip"])
+```
 
-Manipulate hosts::
+Manipulate hosts:
+```
     >>> foreman.hosts.keys()
     dict_keys(['foreman.my.domain', 'server1.my.domain', 'server2.my.domain'])
     >>> foreman.hosts['foreman.my.domain']
     {'compute_resource_name': None, 'certname': 'foreman.my.domain', ...
     >>> foreman.hosts['foreman.infra.opensteak.fr']['operatingsystem_name']
     'Ubuntu 14.04.2 LTS'
+```
 
 List of managed objects
 -----------
@@ -44,6 +48,7 @@ List of managed objects
 - media
 
 Debug the API calls
------------
+-------------------
+
 Explore the api foreman.api object, and the 'history' list, containing the
 last api calls
