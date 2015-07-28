@@ -3,7 +3,7 @@ from setuptools import setup
 setup(
     name='foreman',
     packages=['foreman'],
-    version='0.9.4',
+    version='0.9.5',
     author='David Blaisonneau, Arnaud Morin',
     author_email='david.blaisonneau@orange.com, arnaud1.morin@orange.com',
     scripts=[],
