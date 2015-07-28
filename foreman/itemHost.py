@@ -162,7 +162,7 @@ class ItemHost(ForemanItem):
             self.hostgroup = hostgroup
             self.domain = domain
             if proxyHostname == '':
-                proxyHostname = 'foreman.' + domain
+                proxyHostname = 'foreman.' + domain['name']
             password = self.getParamFromEnv('password', defaultPwd)
             sshauthkeys = self.getParamFromEnv('global_sshkey', defaultSshKey)
             with open(tplFolder+'puppet.conf', 'r') as puppet_file:

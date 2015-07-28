@@ -22,6 +22,7 @@ from foreman.smartProxies import SmartProxies
 from foreman.operatingsystems import OperatingSystems
 from foreman.hostgroups import HostGroups
 from foreman.hosts import Hosts
+from foreman.domains import Domains
 from foreman.architectures import Architectures
 from foreman.subnets import Subnets
 from foreman.puppetClasses import PuppetClasses
@@ -45,9 +46,7 @@ class Foreman:
         """
         self.api = Api(login=login, password=password, ip=ip,
                        printErrors=False)
-        self.domains = ForemanObjects(self.api,
-                                    'domains',
-                                    'domain')
+        self.domains = Domains(self.api)
         self.smartProxies = SmartProxies(self.api)
         self.puppetClasses = PuppetClasses(self.api)
         self.operatingSystems = OperatingSystems(self.api)
