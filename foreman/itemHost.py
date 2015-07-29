@@ -22,8 +22,6 @@ from foreman.item import ForemanItem
 from foreman.subItemInterface import SubItemInterface
 from foreman.subItemParameter import SubItemParameter
 from foreman.subItemPuppetClasses import SubItemPuppetClasses
-from foreman.subItemPuppetClassIds\
-    import SubItemPuppetClassIds
 from foreman.subDict import SubDict
 from foreman.subItemSmartClassParameter\
     import SubItemSmartClassParameter
@@ -76,16 +74,12 @@ class ItemHost(ForemanItem):
                                            attributes)
         elif key in ['power']:
             return self.api.set(self.objName,
-                                '{}/{}'.format(
-                                               self.key,
-                                               'power'),
-                                {"power_action": attributes,"host": {}})
+                                '{}/{}'.format(self.key, 'power'),
+                                {"power_action": attributes, "host": {}})
         elif key in ['boot']:
             return self.api.set(self.objName,
-                                '{}/{}'.format(
-                                               self.key,
-                                               'boot'),
-                                {"device": attributes,"host": {}})
+                                '{}/{}'.format(self.key, 'boot'),
+                                {"device": attributes, "host": {}})
         else:
             return ForemanItem.__setitem__(self, key, attributes)
 
@@ -168,7 +162,7 @@ class ItemHost(ForemanItem):
             with open(tplFolder+'puppet.conf', 'r') as puppet_file:
                 p = MyTemplate(puppet_file.read())
                 p.substitute(foremanHostname=proxyHostname)
-                enc_puppet_file = base64.b64encode(bytes(p.template,'utf-8'))
+                enc_puppet_file = base64.b64encode(bytes(p.template, 'utf-8'))
             with open(tplFolder+'cloud-init.tpl', 'r') as content_file:
                 s = MyTemplate(content_file.read())
                 if sshauthkeys:
