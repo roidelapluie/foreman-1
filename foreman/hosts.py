@@ -30,7 +30,7 @@ class Hosts(ForemanObjects):
     payloadObj = 'host'
     itemType = ItemHost
 
-    def __printProgression__(self, status, msg, eol):
+    def __printProgression__(self, status, msg, eol='\n'):
         """ Function __printProgression__
         Print the creation progression or not
         It uses the foreman.printer lib
@@ -40,22 +40,27 @@ class Hosts(ForemanObjects):
         @param eol: End Of Line (to get a new line or not)
         @return RETURN: None
         """
-        if self.printHostProgress:
-            self.__printProgression__(status, msg, eol=eol)
+        if self.printer is True:
+            print('[{}] - {}{}'.format(status, msg, eol))
+        elif self.printer is False:
+            return 0
+        else:
+            self.printer.status(status, msg, eol=eol)
 
-    def createController(self, key, attributes, ipmi, printHostProgress=False):
+    def createController(self, key, attributes, ipmi, printer=False):
         """ Function createController
         Create a controller node
 
         @param key: The host name or ID
         @param attributes:The payload of the host creation
-        @param printHostProgress: The link to opensteak.printerlib
-                                to print or not the
-                                progression of the host creation
+        @param printer: - False for no creation progression message
+                        - True to get creation progression printed on STDOUT
+                        - Printer class containig a status method for enhanced
+                          print. def printer.status(status, msg, eol=eol)
         @return RETURN: The API result
         """
         if key not in self:
-            self.printHostProgress = printHostProgress
+            self.printer = printer
             self.async = False
             # Create the VM in foreman
             self.__printProgression__('In progress',
@@ -99,7 +104,7 @@ class Hosts(ForemanObjects):
                                           eol='\r')
             time.sleep(sleepTime)
 
-    def createVM(self, key, attributes, printHostProgress=True):
+    def createVM(self, key, attributes, printer=False):
         """ Function createVM
         Create a Virtual Machine
 
@@ -110,13 +115,14 @@ class Hosts(ForemanObjects):
 
         @param key: The host name or ID
         @param attributes:The payload of the host creation
-        @param printHostProgress: The link to opensteak.printerlib
-                                to print or not the
-                                progression of the host creation
+        @param printer: - False for no creation progression message
+                        - True to get creation progression printed on STDOUT
+                        - Printer class containig a status method for enhanced
+                          print. def printer.status(status, msg, eol=eol)
         @return RETURN: The API result
         """
 
-        self.printHostProgress = printHostProgress
+        self.printer = printer
         self.async = True
         # Create the VM in foreman
         self.__printProgression__('In progress',
@@ -148,7 +154,6 @@ class Hosts(ForemanObjects):
                                       str(powerOn))
             return False
         #  Show creation result
-        pp(asyncCreation)
         if asyncCreation.result().status_code is 200:
             self.__printProgression__('In progress',
                                       key + ' creation: created',
@@ -157,7 +162,8 @@ class Hosts(ForemanObjects):
             self.__printProgression__(False,
                                       key + ' creation: Error - ' +
                                       str(asyncCreation.result()
-                                          .status_code))
+                                          .status_code) + ' - ' +
+                                      str(asyncCreation.result().text))
             return False
 
         # Wait for puppet catalog to be applied
