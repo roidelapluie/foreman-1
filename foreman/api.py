@@ -189,9 +189,11 @@ class Api:
         self.method = 'POST'
         self.payload = json.dumps(payload)
         if async:
+            self.method = 'POST(Async)'
             session = FuturesSession()
-            return session.post(url=self.url, auth=self.auth,
+            self.resp = session.post(url=self.url, auth=self.auth,
                                 headers=self.headers, data=self.payload)
+            return self.resp
         else:
             self.resp = requests.post(url=self.url, auth=self.auth,
                                       headers=self.headers,
