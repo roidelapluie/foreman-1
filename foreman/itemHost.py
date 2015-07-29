@@ -161,8 +161,8 @@ class ItemHost(ForemanItem):
             sshauthkeys = self.getParamFromEnv('global_sshkey', defaultSshKey)
             with open(tplFolder+'puppet.conf', 'r') as puppet_file:
                 p = MyTemplate(puppet_file.read())
-                p.substitute(foremanHostname=proxyHostname)
-                enc_puppet_file = base64.b64encode(bytes(p.template, 'utf-8'))
+                content = p.substitute(foremanHostname=proxyHostname)
+                enc_puppet_file = base64.b64encode(bytes(content, 'utf-8'))
             with open(tplFolder+'cloud-init.tpl', 'r') as content_file:
                 s = MyTemplate(content_file.read())
                 if sshauthkeys:
@@ -179,4 +179,4 @@ class ItemHost(ForemanItem):
 
 class MyTemplate(Template):
     delimiter = '%'
-    idpattern = r'[a-z][_a-z0-9]*'
+    idpattern = r'[a-z][_a-zA-Z0-9]*'

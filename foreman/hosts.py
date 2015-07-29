@@ -123,20 +123,21 @@ class Hosts(ForemanObjects):
         """
 
         self.printer = printer
-        self.async = True
+        self.async = False
         # Create the VM in foreman
+        # NOTA: with 1.8 it will return 422 'Failed to login via SSH'
         self.__printProgression__('In progress',
                                   key + ' creation: push in Foreman', eol='\r')
-        asyncCreation = self.api.create('hosts', attributes, async=True)
+        asyncCreation = self.api.create('hosts', attributes, async=self.async)
 
         #  Wait before asking to power on the VM
-        sleep = 5
-        for i in range(0, sleep):
-            time.sleep(1)
-            self.__printProgression__('In progress',
-                                      key + ' creation: start in {0}s'
-                                      .format(sleep - i),
-                                      eol='\r')
+        # sleep = 5
+        # for i in range(0, sleep):
+            # time.sleep(1)
+            # self.__printProgression__('In progress',
+                                      # key + ' creation: start in {0}s'
+                                      # .format(sleep - i),
+                                      # eol='\r')
 
         #  Power on the VM
         self.__printProgression__('In progress',
@@ -154,17 +155,18 @@ class Hosts(ForemanObjects):
                                       str(powerOn))
             return False
         #  Show creation result
-        if asyncCreation.result().status_code is 200:
-            self.__printProgression__('In progress',
-                                      key + ' creation: created',
-                                      eol='\r')
-        else:
-            self.__printProgression__(False,
-                                      key + ' creation: Error - ' +
-                                      str(asyncCreation.result()
-                                          .status_code) + ' - ' +
-                                      str(asyncCreation.result().text))
-            return False
+        # NOTA: with 1.8 it will return 422 'Failed to login via SSH'
+        # if asyncCreation.result().status_code is 200:
+            # self.__printProgression__('In progress',
+                                      # key + ' creation: created',
+                                      # eol='\r')
+        # else:
+            # self.__printProgression__(False,
+                                      # key + ' creation: Error - ' +
+                                      # str(asyncCreation.result()
+                                          # .status_code) + ' - ' +
+                                      # str(asyncCreation.result().text))
+            # return False
 
         # Wait for puppet catalog to be applied
         self.waitPuppetCatalogToBeApplied(key)
