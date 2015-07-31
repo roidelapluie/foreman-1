@@ -105,9 +105,9 @@ class ItemSmartClassParameter(ForemanItem):
             orv['value'] = attributes
             return True
         else:
-            self.api.create('{}/{}/{}'.format(self.objName,
-                                              self.key,
-                                              'override_values'),
-                            {"override_value":
-                                {"match": "fqdn={}".format(hostName),
-                                 "value": attributes}})
+            return self.api.create('{}/{}/{}'.format(self.objName,
+                                                     self.key,
+                                                     'override_values'),
+                                   {"override_value":
+                                       {"match": "fqdn={}".format(hostName),
+                                        "value": attributes}})
