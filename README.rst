@@ -14,7 +14,7 @@ Usage
 
 Load the code::
     >>> from foreman import Foreman
-    >>> foreman = Foreman(login=args["admin"], password=args["password"], ip=args["ip"])
+    >>> foreman = Foreman(login=args["admin"], password=args["password"], ip=args["ip"], ca_cert='example.crt')
 
 Manipulate hosts::
     >>> foreman.hosts.keys()
