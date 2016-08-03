@@ -97,7 +97,7 @@ class Api:
         if filter:
             self.url += '&search={}'.format(filter)
         self.resp = requests.get(url=self.url, auth=self.auth,
-                                 headers=self.headers, cert=self.ca_cert)
+                                 headers=self.headers, verify=self.ca_cert)
         if only_id:
             if self.__process_resp__(obj) is False:
                 return False
@@ -128,7 +128,7 @@ class Api:
         if sub_object:
             self.url += '/' + sub_object
         self.resp = requests.get(url=self.url, auth=self.auth,
-                                 headers=self.headers, cert=self.ca_cert)
+                                 headers=self.headers, verify=self.ca_cert)
         if self.__process_resp__(obj):
             return self.res
         return False
@@ -167,10 +167,10 @@ class Api:
         if async:
             session = FuturesSession()
             return session.put(url=self.url, auth=self.auth,
-                               headers=self.headers, data=self.payload, cert=self.ca_cert)
+                               headers=self.headers, data=self.payload, verify=self.ca_cert)
         else:
             self.resp = requests.put(url=self.url, auth=self.auth,
-                                     headers=self.headers, data=self.payload, cert=self.ca_cert)
+                                     headers=self.headers, data=self.payload, verify=self.ca_cert)
             if self.__process_resp__(obj):
                 return self.res
             return False
@@ -193,12 +193,12 @@ class Api:
             self.method = 'POST(Async)'
             session = FuturesSession()
             self.resp = session.post(url=self.url, auth=self.auth,
-                                headers=self.headers, data=self.payload, cert=self.ca_cert)
+                                headers=self.headers, data=self.payload, verify=self.ca_cert)
             return self.resp
         else:
             self.resp = requests.post(url=self.url, auth=self.auth,
                                       headers=self.headers,
-                                      data=self.payload, cert=self.ca_cert)
+                                      data=self.payload, verify=self.ca_cert)
             return self.__process_resp__(obj)
 
     @log
@@ -214,7 +214,7 @@ class Api:
         self.method = 'DELETE'
         self.resp = requests.delete(url=self.url,
                                     auth=self.auth,
-                                    headers=self.headers, cert=self.ca_cert, )
+                                    headers=self.headers, verify=self.ca_cert, )
         return self.__process_resp__(obj)
 
     def __process_resp__(self, obj):
